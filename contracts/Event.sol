@@ -29,9 +29,10 @@ contract Event {
     }
 
 
-    error invalidEvent();
+    error InvalidEvent();
     error AddressZeroDetected();
     error FieldEmpty();
+    error AlreadyRegistered();
 
 
     function createEvent(string memory _title,string memory _description, uint256 _date,address _nftTokenAddress) external {    
@@ -70,10 +71,18 @@ contract Event {
 
 
     function registerEvent(uint256 _eventId, address _nftTokenAddress) external {
-        require(_eventId > 0,"invalid event");
-        require(_eventId <= eventCount,"event dosent exist");
-        require(_nftTokenAddress != address(0),"address zero!");
-        require(!hasRegistered[msg.sender][_eventId],"already registered!");
+        if(_eventId <= 0){
+            revert InvalidEvent();
+        }
+        if(_eventId > eventCount){
+            revert InvalidEvent();
+        }
+        if(_nftTokenAddress == address(0)){
+            revert AddressZeroDetected();
+        }
+        if(hasRegistered[msg.sender][_eventId]){
+            revert AlreadyRegistered();
+        }
 
         //check if user possesses NFT
         IERC721 nftContract = IERC721(_nftTokenAddress);
@@ -88,9 +97,6 @@ contract Event {
         //add user to the attendees array
         eventDetails[_eventId].attendees.push(msg.sender);
         
-
-
-
 
 
     }

@@ -6,6 +6,10 @@ pragma solidity ^0.8.24;
 
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
+
+//work on this more
+//ownable comes in at some point
+
 contract Event {
 
     struct Events{
@@ -17,16 +21,14 @@ contract Event {
         address[] attendees;
     }
 
-    mapping (uint256 => Events) eventDetails;
+    mapping (uint256 => Events) public eventDetails;
 
-     mapping(address => mapping(uint256 => bool))  hasRegistered;
+     mapping(address => mapping(uint256 => bool)) public hasRegistered;
 
     uint256 public eventCount;
 
 
-    constructor(){
-        eventCount = 0;
-    }
+    constructor(){}
 
 
     error InvalidEvent();
@@ -49,7 +51,7 @@ contract Event {
         
 
 
-        // Transaction storage trx = transactions[_txId];
+
         eventCount++;
 
         Events memory  evnt;

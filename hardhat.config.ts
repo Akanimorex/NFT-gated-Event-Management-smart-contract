@@ -3,14 +3,15 @@ import "@nomicfoundation/hardhat-toolbox";
 import * as dotenv from "dotenv";
 dotenv.config();
 
+
+const KEY = process.env.PRIVATE_KEY;
+
 const config: HardhatUserConfig = {
   solidity: "0.8.24",
   networks: {
-    // for testnet
-    "lisk-sepolia": {
-      url: process.env.API_URL!,
-      accounts: [process.env.PRIVATE_KEY!],
-      gasPrice: 1000000000,
+    swisstronik: {
+      url: "https://json-rpc.testnet.swisstronik.com/",
+      accounts: [`0x` + `${KEY}`],
     },
   },
   etherscan: {
@@ -33,5 +34,7 @@ const config: HardhatUserConfig = {
     enabled: false,
   },
 };
+
+
 
 export default config;
